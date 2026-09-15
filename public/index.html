@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel do Cliente — Busca</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar__mark">painel<strong>.cliente</strong></div>
+</header>
+
+<main class="search-shell">
+  <p class="search-shell__label">busca de clientes</p>
+  <h1>Encontre um cliente pelo CNPJ, CPF, razão social ou nome fantasia.</h1>
+
+  <div class="search-box">
+    <input
+      type="text"
+      id="campo-busca"
+      placeholder="Ex.: 12.345.678/0001-99, Comércio Exemplo..."
+      autocomplete="off"
+      autofocus
+    >
+    <p class="search-box__hint">Pontuação do CNPJ/CPF é opcional — pode digitar com ou sem pontos e traços.</p>
+  </div>
+
+  <div id="resultados" class="results"></div>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/busca.js"></script>
+</body>
+</html>

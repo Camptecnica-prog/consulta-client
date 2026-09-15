@@ -1,0 +1,487 @@
+/* ============================================================
+   Painel do Cliente — sistema de design
+   Ferramenta interna de operações: busca de clientes e
+   histórico completo (suporte, implantação, financeiro, visitas).
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Base */
+  --bg: #F5F6F2;
+  --bg-raised: #FFFFFF;
+  --ink: #1B2027;
+  --ink-soft: #565F6B;
+  --ink-faint: #8A93A0;
+  --line: #DBDED6;
+  --line-soft: #E7E9E2;
+
+  /* Acentos funcionais — um por área operacional */
+  --area-suporte: #1E7A72;
+  --area-suporte-bg: #E8F3F1;
+  --area-implantacao: #3D5A99;
+  --area-implantacao-bg: #E9EDF6;
+  --area-financeiro: #92661F;
+  --area-financeiro-bg: #F5EEE0;
+  --area-visitas: #B2542E;
+  --area-visitas-bg: #F6E9E1;
+
+  /* Estados */
+  --status-aberto: #C0392B;
+  --status-aberto-bg: #FBEAE8;
+  --status-fechado: #1E7A72;
+  --status-fechado-bg: #E8F3F1;
+  --status-pendente: #92661F;
+  --status-pendente-bg: #F5EEE0;
+
+  --radius-s: 6px;
+  --radius-m: 10px;
+
+  --font-display: 'Space Grotesk', sans-serif;
+  --font-body: 'IBM Plex Sans', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: inherit; }
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+::selection { background: #1B2027; color: #fff; }
+
+/* ---------- Topo utilitário ---------- */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px;
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar__mark {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--ink-faint);
+}
+
+.topbar__mark strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ---------- Página de busca ---------- */
+.search-shell {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 88px 24px 64px;
+}
+
+.search-shell__label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-faint);
+  margin: 0 0 10px;
+}
+
+.search-shell h1 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.25;
+  margin: 0 0 32px;
+  max-width: 480px;
+}
+
+.search-box {
+  position: relative;
+}
+
+.search-box input {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: 17px;
+  padding: 16px 18px;
+  border: 1.5px solid var(--line);
+  border-radius: var(--radius-m);
+  background: var(--bg-raised);
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.15s ease;
+}
+
+.search-box input:focus {
+  border-color: var(--ink);
+}
+
+.search-box__hint {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--ink-faint);
+}
+
+.results {
+  margin-top: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.client-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 20px;
+  background: var(--bg-raised);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+  text-align: left;
+  width: 100%;
+}
+
+.client-card:hover {
+  border-color: var(--ink);
+}
+
+.client-card__name {
+  font-weight: 600;
+  font-size: 16px;
+  margin: 0 0 4px;
+}
+
+.client-card__razao {
+  font-size: 13px;
+  color: var(--ink-soft);
+  margin: 0 0 6px;
+}
+
+.client-card__doc {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+
+.client-card__go {
+  flex: none;
+  font-size: 20px;
+  color: var(--ink-faint);
+}
+
+.empty-state {
+  margin-top: 28px;
+  padding: 20px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-m);
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+
+/* ---------- Página do cliente ---------- */
+.client-header {
+  padding: 28px 32px 0;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.client-header__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--ink-soft);
+  text-decoration: none;
+  margin-bottom: 18px;
+}
+
+.client-header__top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.client-header h1 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 28px;
+  margin: 0 0 6px;
+}
+
+.client-header__razao {
+  color: var(--ink-soft);
+  font-size: 14.5px;
+  margin: 0 0 10px;
+}
+
+.client-header__docs {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--ink-faint);
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+/* Painel de resumo (vida útil) */
+.summary-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+  overflow: hidden;
+  margin: 24px 0 8px;
+}
+
+.summary-cell {
+  background: var(--bg-raised);
+  padding: 16px 18px;
+}
+
+.summary-cell__value {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.summary-cell__label {
+  font-size: 12.5px;
+  color: var(--ink-soft);
+}
+
+/* Abas de área */
+.area-tabs {
+  max-width: 1080px;
+  margin: 28px auto 0;
+  padding: 0 32px;
+  display: flex;
+  gap: 6px;
+  border-bottom: 1px solid var(--line);
+}
+
+.area-tab {
+  background: none;
+  border: none;
+  padding: 12px 16px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14.5px;
+  color: var(--ink-soft);
+  border-bottom: 2.5px solid transparent;
+  margin-bottom: -1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.area-tab__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.area-tab[data-area="suporte"] .area-tab__dot { background: var(--area-suporte); }
+.area-tab[data-area="implantacao"] .area-tab__dot { background: var(--area-implantacao); }
+.area-tab[data-area="financeiro"] .area-tab__dot { background: var(--area-financeiro); }
+.area-tab[data-area="visitas"] .area-tab__dot { background: var(--area-visitas); }
+
+.area-tab.is-active {
+  color: var(--ink);
+}
+
+.area-tab[data-area="suporte"].is-active { border-color: var(--area-suporte); }
+.area-tab[data-area="implantacao"].is-active { border-color: var(--area-implantacao); }
+.area-tab[data-area="financeiro"].is-active { border-color: var(--area-financeiro); }
+.area-tab[data-area="visitas"].is-active { border-color: var(--area-visitas); }
+
+.area-panels {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 28px 32px 80px;
+}
+
+.area-panel { display: none; }
+.area-panel.is-active { display: block; }
+
+.area-panel__section-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-soft);
+  margin: 28px 0 12px;
+}
+
+.area-panel__section-title:first-child {
+  margin-top: 0;
+}
+
+/* Cards de ticket / boleto / visita */
+.record-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.record-card {
+  border: 1px solid var(--line);
+  background: var(--bg-raised);
+  border-radius: var(--radius-m);
+  padding: 16px 18px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.record-card__main { flex: 1; min-width: 0; }
+
+.record-card__title {
+  font-weight: 600;
+  font-size: 15px;
+  margin: 0 0 6px;
+}
+
+.record-card__meta {
+  font-size: 13px;
+  color: var(--ink-soft);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+}
+
+.record-card__meta span.mono {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+}
+
+.record-card__side {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.status-pill {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 100px;
+  white-space: nowrap;
+}
+
+.status-pill--aberto { background: var(--status-aberto-bg); color: var(--status-aberto); }
+.status-pill--fechado { background: var(--status-fechado-bg); color: var(--status-fechado); }
+.status-pill--pendente { background: var(--status-pendente-bg); color: var(--status-pendente); }
+
+.duration-note {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+  text-align: right;
+}
+
+.os-link {
+  font-size: 12.5px;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 5px 10px;
+  border-radius: var(--radius-s);
+  white-space: nowrap;
+}
+
+.os-link:hover { border-color: var(--ink); }
+
+/* Etapas de implantação */
+.stage-track {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin: 6px 0 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-m);
+  background: var(--bg-raised);
+  padding: 18px 20px;
+}
+
+.stage-track__item {
+  flex: 1;
+  position: relative;
+  padding-top: 20px;
+  text-align: left;
+}
+
+.stage-track__item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: calc(50% + 12px);
+  right: -50%;
+  height: 2px;
+  background: var(--line-soft);
+}
+
+.stage-track__item.is-done:not(:last-child)::after {
+  background: var(--area-implantacao);
+}
+
+.stage-track__marker {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--line-soft);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.stage-track__item.is-done .stage-track__marker { background: var(--area-implantacao); }
+.stage-track__item.is-current .stage-track__marker {
+  background: var(--bg-raised);
+  border: 2.5px solid var(--area-implantacao);
+  width: 12px; height: 12px;
+}
+
+.stage-track__label {
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+
+.stage-track__item.is-done .stage-track__label,
+.stage-track__item.is-current .stage-track__label {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.empty-panel {
+  padding: 24px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-m);
+  color: var(--ink-soft);
+  font-size: 14px;
+}
+
+@media (max-width: 640px) {
+  .summary-strip { grid-template-columns: repeat(2, 1fr); }
+  .client-header, .area-tabs, .area-panels { padding-left: 18px; padding-right: 18px; }
+  .area-tabs { overflow-x: auto; }
+  .record-card { flex-direction: column; }
+  .record-card__side { align-items: flex-start; width: 100%; }
+}

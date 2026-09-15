@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel do Cliente</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="topbar__mark">
+    painel<strong>.cliente</strong>
+  </div>
+</header>
+
+
+<div class="client-header" id="client-header">
+
+  <a
+    href="index.html"
+    class="client-header__back"
+  >
+    ← Voltar à busca
+  </a>
+
+  <!-- preenchido via JS -->
+
+</div>
+
+
+<nav class="area-tabs" id="area-tabs">
+
+  <!-- ABA SUPORTE COMEÇA ATIVA -->
+  <button class="area-tab is-active" data-area="tickets">
+    <span class="area-tab__dot"></span>
+    Suporte técnico
+  </button>
+
+
+  <button
+    class="area-tab"
+    data-area="implantacao"
+  >
+    <span class="area-tab__dot"></span>
+    Implantação
+  </button>
+
+
+  <button
+    class="area-tab"
+    data-area="financeiro"
+  >
+    <span class="area-tab__dot"></span>
+    Financeiro
+  </button>
+
+
+  <button
+    class="area-tab"
+    data-area="visitas"
+  >
+    <span class="area-tab__dot"></span>
+    Visitas técnicas
+  </button>
+
+</nav>
+
+
+<main class="area-panels">
+
+
+  <!-- SUPORTE COMEÇA VISÍVEL/ATIVO -->
+
+  <section
+    class="area-panel is-active"
+    id="panel-tickets"
+  >
+    <!-- O conteúdo dos tickets (incluindo a barra de filtros) é injetado dinamicamente pelo cliente.js -->
+  </section>
+
+
+  <!-- IMPLANTAÇÃO -->
+
+  <section
+    class="area-panel"
+    id="panel-implantacao"
+  ></section>
+
+
+  <!-- FINANCEIRO -->
+
+  <section
+    class="area-panel"
+    id="panel-financeiro"
+  ></section>
+
+
+  <!-- VISITAS -->
+
+  <section
+    class="area-panel"
+    id="panel-visitas"
+  ></section>
+
+
+</main>
+
+
+<script src="js/data.js"></script>
+<script src="js/cliente.js"></script>
+
+</body>
+</html>
